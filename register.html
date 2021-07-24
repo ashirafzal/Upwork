@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+      label {
+        margin-bottom: 5px;
+      }
+      form {
+        padding: 2rem;
+        border: 1px solid #e3e3e3;
+        margin-top: 4rem;
+      }
+    </style>
+    <title>Register</title>
+  </head>
+  <body>
+    <div class="container">
+      <div
+        class="alert alert-success alert-dismissible"
+        id="success"
+        style="display: none"
+      >
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+      </div>
+      <div
+        class="alert alert-danger alert-dismissible"
+        id="error"
+        style="display: none"
+      >
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+      </div>
+      <form id="fupForm" name="form1" method="post">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Name</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            class="form-control"
+            placeholder="Enter name"
+          />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="exampleInputEmail1">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter username"
+            id="username"
+            name="username"
+          />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Enter email"
+            id="email"
+            name="email"
+          />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            id="password"
+            name="password"
+          />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="exampleInputPassword1">Confirmed Password</label>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Confirmed Password"
+            id="confirmedpassword"
+            name="confirmedpassword"
+          />
+        </div>
+        <br />
+        <button type="submit" name="save" id="butsave" class="btn btn-primary">
+          Register
+        </button>
+        <br />
+        <br />
+        <a href="http://jobposting.test/">Login</a>
+      </form>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $("#butsave").on("click", function () {
+          $("#butsave").attr("disabled", "disabled");   
+          
+          var name = $("#name").val();
+          var email = $("#email").val();
+          var username = $("#username").val();
+          var password = $("#password").val();
+          var confirmedpassword = $("#confirmedpassword").val();
+
+          $("#success").hide();
+          $("#error").hide();
+
+          if (password === confirmedpassword) {
+            if (name != "" && email != "" && username != "" && password != "") {
+              $.ajax({
+                url: "register.php",
+                type: "POST",
+                data: {
+                  name: name,
+                  email: email,
+                  username: username,
+                  password: password,
+                },
+                cache: false,
+                success: function (dataResult) {
+                  var dataResult = JSON.parse(dataResult);
+                  if (dataResult.statusCode == 200) {
+                    $("#butsave").removeAttr("disabled");
+                    $("#fupForm").find("input:text").val("");
+                    $("#success").show();
+                    $("#success").html("Registered successfully !");
+                  } else if (dataResult.statusCode == 201) {
+                    $("#error").show();
+                    $("#error").html("Error occured while saving.");
+                    $("#butsave").removeAttr("disabled");
+                  }
+                  else if (dataResult.statusCode == 202) {
+                    $("#error").show();
+                    $("#error").html("Email format is not correct");
+                    $("#butsave").removeAttr("disabled");
+                  }
+                  else if (dataResult.statusCode == 203) {
+                    $("#error").show();
+                    $("#error").html("Password should be 8 characters long. Password should contain numbers, lowercase and uppercase characters.");
+                    $("#butsave").removeAttr("disabled");
+                  }
+                  else if (dataResult.statusCode == 204) {
+                    $("#error").show();
+                    $("#error").html("Email should be unique. Email already exists.");
+                    $("#butsave").removeAttr("disabled");
+                  }
+                },
+              });
+            } else {
+                $("#error").show();
+                $("#error").html("All fields required");
+            }
+          } else {
+            $("#error").show();
+            $("#error").html("password and confirmed password mismatched");
+          }
+        });
+
+      });
+    </script>
+  </body>
+</html>

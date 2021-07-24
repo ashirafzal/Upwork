@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Login</title>
+    <style>
+      label {
+        margin-bottom: 5px;
+      }
+      form {
+        padding: 2rem;
+        border: 1px solid #e3e3e3;
+        margin-top: 4rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div
+        class="alert alert-danger alert-dismissible"
+        id="error"
+        style="display: none"
+      >
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+      </div>
+      <form id="fupForm" name="form1" method="post">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            aria-describedby="emailHelp"
+            placeholder="Enter your email"
+            name="email"
+          />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="Password"
+            name="password"
+          />
+        </div>
+        <br />
+        <button type="submit" name="save" id="butsave" class="btn btn-primary">Login</button>
+        <br />
+        <br />
+        <a href="http://jobposting.test/register.html">Register yourself</a>
+      </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+          $("#butsave").on("click", function () {
+            $("#butsave").attr("disabled", "disabled");   
+            
+            var email = $("#email").val();
+            var password = $("#password").val();
+  
+            $("#error").hide();
+            
+              if (email != "" && password != "") {
+                $.ajax({
+                  url: "login.php",
+                  type: "POST",
+                  data: {
+                    email: email,
+                    password: password,
+                  },
+                  cache: false,
+                  success: function (dataResult) {
+                    var dataResult = JSON.parse(dataResult);
+                    if (dataResult.statusCode == 200) {
+                      $("#butsave").removeAttr("disabled");
+                      $("#fupForm").find("input:text").val("");
+                      window.location.href = "http://jobposting.test/job_listing.html";
+                    } else if (dataResult.statusCode == 201) {
+                      $("#error").show();
+                      $("#error").html("Email not found.");
+                      $("#butsave").removeAttr("disabled");
+                    }else if (dataResult.statusCode == 202) {
+                      $("#error").show();
+                      $("#error").html("Password is incorrect.");
+                      $("#butsave").removeAttr("disabled");
+                    }
+                  },
+                });
+              } else {
+                  $("#error").show();
+                  $("#error").html("All fields required");
+              }
+          });
+  
+        });
+      </script>
+  </body>
+</html>
