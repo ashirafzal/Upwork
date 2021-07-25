@@ -10,8 +10,21 @@
     $HourlyMaxRate = $_POST['HourlyMaxRate'];
     $PaymentVerified = $_POST['PaymentVerified'];
 
-    $query = 'select * from jobs where '.$Freelance.' and '.$FreelanceType.' ';
-    // $query = "SELECT * from jobs where freelancer_needed >= 2 and experience_level = 'Expert' ";
+    if($HourlyMinRate && $HourlyMaxRate){
+        $hourly = " hourly_rate_min >= '".$HourlyMinRate."' and  hourly_rate_max <= '".$HourlyMaxRate."' ";
+    }
+    elseif($HourlyMinRate && !$HourlyMaxRate){
+        $hourly = " hourly_rate_min >= '".$HourlyMinRate."' ";
+    }
+    elseif(!$HourlyMinRate && $HourlyMaxRate){
+        $hourly = " hourly_rate_max <= '".$HourlyMaxRate."' ";
+    }
+    else{
+        $hourly = "hourly_rate_min is not null and hourly_rate_max is not null";
+    }   
+
+    $query = 'select * from jobs where '.$Freelance.' and '.$FreelanceType.' and '.$hourly.' and '.$PaymentVerified.' ';
+    
     $result = mysqli_query($conn,$query);
 
     while($data = mysqli_fetch_row($result))
