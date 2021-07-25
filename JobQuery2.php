@@ -2,28 +2,9 @@
 
     include 'connection.php';
 
-    $Freelance = $_POST['Freelance'];
-    $FreelanceType = $_POST['FreelanceType'];
-    $HireType = $_POST['HireType'];
-    $PriceCheck = $_POST['PriceCheck'];
-    $HourlyMinRate = $_POST['HourlyMinRate'];
-    $HourlyMaxRate = $_POST['HourlyMaxRate'];
-    $PaymentVerified = $_POST['PaymentVerified'];
+    $MainSearch = $_POST['MainSearch'];
 
-    if($HourlyMinRate && $HourlyMaxRate){
-        $hourly = " hourly_rate_min >= '".$HourlyMinRate."' and  hourly_rate_max <= '".$HourlyMaxRate."' ";
-    }
-    elseif($HourlyMinRate && !$HourlyMaxRate){
-        $hourly = " hourly_rate_min >= '".$HourlyMinRate."' ";
-    }
-    elseif(!$HourlyMinRate && $HourlyMaxRate){
-        $hourly = " hourly_rate_max <= '".$HourlyMaxRate."' ";
-    }
-    else{
-        $hourly = "hourly_rate_min is not null and hourly_rate_max is not null";
-    }   
-
-    $query = 'select * from jobs where '.$Freelance.' and '.$FreelanceType.' and '.$hourly.' and '.$PaymentVerified.' and '.$HireType.' ';
+    $query = "select * from jobs where job_title LIKE '%".$MainSearch."%' ";
 
     $result = mysqli_query($conn,$query);
 

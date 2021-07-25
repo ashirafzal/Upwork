@@ -131,7 +131,6 @@
         <p class='tag'>Job Type</p>
         <p><input type='checkbox' name='Hourly' id='Hourly' /> Hourly (".$HourlyCount.")</p>
         <p>
-        <input class='checkbox' type='checkbox' name='HourlyRate' id='HourlyRate' />
         <input type='text' class='amount' id='HourlyMinRate' name='HourlyMinRate' placeholder='$ Min' /> /hr
         <input type='text' class='amount' id='HourlyMaxRate' name='HourlyMaxRate' placeholder='$ Min' /> /hr
         </p>
@@ -161,7 +160,6 @@
         <input class='checkbox' type='checkbox' name='MoreThanFiveThousand' id='MoreThanFiveThousand' /> $5k (".$MoreThanFiveThousandCount.")
         </p>
         <p>
-        <input class='checkbox' type='checkbox' name='' id='FixedPriceApply' />
         <input type='text' class='amount' placeholder='$ Min' />
         <input type='text' class='amount' placeholder='$ Max' />
         </p>
