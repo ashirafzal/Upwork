@@ -2,7 +2,7 @@
 
     include 'connection.php';
 
-    $query = "select * from jobs";
+    $query = "select * from jobs order by id desc";
     $result = mysqli_query($conn,$query);
 
     while($data = mysqli_fetch_row($result))
