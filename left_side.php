@@ -54,7 +54,7 @@
         $result12 = mysqli_query($conn, $sql12);
         $OneThousandToFiveThousandCount = mysqli_fetch_assoc($result12)['COUNT(*)'];
 
-        $sql13 = "SELECT COUNT(*) FROM jobs where fixed_price <= '5000' ";
+        $sql13 = "SELECT COUNT(*) FROM jobs where fixed_price >= '5000' ";
         $result13 = mysqli_query($conn, $sql13);
         $MoreThanFiveThousandCount = mysqli_fetch_assoc($result13)['COUNT(*)'];
 

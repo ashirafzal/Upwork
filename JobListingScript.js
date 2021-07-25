@@ -950,7 +950,23 @@ function Query() {
           $("#job").html(dataResult);
         },
       });
-    } else {
+    } else if($("input#FixedPrice").is(":checked")){
+        $.ajax({
+            url: "JobQuery3.php",
+            type: "POST",
+            data: {
+              Freelance: Freelance,
+              FreelanceType: FreelanceType,
+              HireType: HireType,
+              PriceCheck: PriceCheck,
+              PaymentVerified: PaymentVerified,
+            },
+            cache: false,
+            success: function (dataResult) {
+              $("#job").html(dataResult);
+            },
+          });
+    }else {
         $.ajax({
             url: "JobQuery.php",
             type: "POST",
@@ -989,6 +1005,22 @@ function Query() {
           $("#job").html(dataResult);
         },
       });
+    } else if($("input#FixedPrice").is(":checked")){
+        $.ajax({
+            url: "JobQuery3.php",
+            type: "POST",
+            data: {
+              Freelance: Freelance,
+              FreelanceType: FreelanceType,
+              HireType: HireType,
+              PriceCheck: PriceCheck,
+              PaymentVerified: PaymentVerified,
+            },
+            cache: false,
+            success: function (dataResult) {
+              $("#job").html(dataResult);
+            },
+          });
     } else {
         $.ajax({
             url: "JobQuery2.php",
